@@ -1,3 +1,4 @@
+// slashes@2.0.0
 const port = 3210;
 const express = require('express');
 const app = express();
@@ -9,6 +10,19 @@ app.set("view engine", "ejs");
 
 const path = require('path');
 app.set('views', path.join(__dirname, "./views") )
+app.use(express.static(path.join(__dirname, "css")));
+app.use(express.static(path.join(__dirname, "js")));
 
+global.addSlashes = require('slashes').addSlashes;
+global.stripSlashes = require('slashes').stripSlashes;
+// const {addSlashes, stripSlashes} = require('slashes')
 app.get('/', (req, res)=>{ res.render("index",{}); })
+
+let db_M = require('./server/models/database');
+global.db_pool = db_M.pool;
+
+const corse_rtr = require('./server/Routs/Course_CURD')
+app.use('/course', corse_rtr);
+
+
 app.listen(port, ()=> { console.log(`Now Listening On Port http://localhost:${port}`); })
