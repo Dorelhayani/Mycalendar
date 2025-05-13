@@ -1,9 +1,14 @@
 // Create
 // =====================================================================================================================
-async function AddCourse(req, res, next){
+async function AddUser(req, res, next){
     let name = addSlashes(req.body.name);
-    let Q=`INSERT INTO course ( name) VALUES ('${name}')` ;
-
+    let userName = addSlashes(req.body.userName);
+    let password = addSlashes(req.body.password);
+    let email = addSlashes(req.body.email);
+    let typeID = parseInt(req.body.typeID);
+    let StudentID = parseInt(req.body.StudentID);
+    let Q=`INSERT INTO users (name,userName,password,email,typeID,StudentID) 
+    VALUES ('${name}','${userName}','${password}','${email}','${typeID}','${StudentID}')` ;
     const promisePool = db_pool.promise();
 
     let rows = [];
@@ -17,7 +22,7 @@ async function AddCourse(req, res, next){
 
 // Update
 // =====================================================================================================================
-async function UpdateCourse(req, res, next){
+async function UpdateUser(req, res, next){
     let id = parseInt(req.params.id);
     if(id <= 0) {
         req.GoodOne = false;
@@ -25,7 +30,14 @@ async function UpdateCourse(req, res, next){
     }
     req.GoodOne = true;
     let name = addSlashes(req.body.name);
-    let Query = `UPDATE course SET name='${name}' WHERE id='${id}'`;
+    let userName = req.body.userName;
+    let password = req.body.password;
+    let email = req.body.email;
+    let typeID = parseInt(req.body.typeID);
+    let StudentID = parseInt(req.body.StudentID);
+
+    let Query = `UPDATE users SET name='${name}',userName = '${userName}', password = '${password}', email = '${email}', 
+typeID = '${typeID}', StudentID = '${StudentID}' WHERE id='${id}'`;
     const promisePool = db_pool.promise();
     let rows=[];
     try {
@@ -33,29 +45,27 @@ async function UpdateCourse(req, res, next){
     } catch (err) { console.log(err);}
     next();
 }
-
 // =====================================================================================================================
 
 
 // Read
 // =====================================================================================================================
-async function GetAllCourses(req,res,next){
-    let Query="SELECT * FROM course";
+async function GetAllUsers(req,res,next){
+    let Query="SELECT * FROM users";
     const promisePool = db_pool.promise();
     let rows=[];
-    req.courses_data=[];
+    req.users_data = [];
     try {
         [rows] = await promisePool.query(Query);
-        req.courses_data=rows;
+        req.users_data = rows;
     } catch (err) { console.log(err);}
     next();
 }
 // =====================================================================================================================
 
-
-// Get One Course
+// Read
 // =====================================================================================================================
-async function GetOneCourse(req,res,next){
+async function GetOneUser(req,res,next){
     let id = parseInt(req.params.id);
     if(id === NaN ||(id <= 0) ){
         req.GoodOne = false;
@@ -63,10 +73,10 @@ async function GetOneCourse(req,res,next){
     }
     req.GoodOne = true;
 
-    let Q=`SELECT * FROM course  WHERE id = '${id}' `;
+    let Q=`SELECT * FROM users  WHERE id = '${id}' `;
     const promisePool = db_pool.promise();
     let rows=[];
-    req.one_course_data=[];
+    req.one_user_data=[];
     try {
         [rows] = await promisePool.query(Q);
         if(rows.length > 0){ req.courses_data = rows[0]; }
@@ -78,20 +88,20 @@ async function GetOneCourse(req,res,next){
 
 // Delete
 // =====================================================================================================================
-async function DeleteCourse(req,res,next){
-let id = parseInt(req.body.id);
-if(id > 0) {
-    let Query =`DELETE FROM course  WHERE id = '${id}' `;
-    const promisePool = db_pool.promise();
-    let rows = [];
-    try{
-        [rows] = await promisePool.query(Query);
-    } catch (err){ console.log(err) }
-}
+async function DeleteUser(req,res,next){
+    let id = parseInt(req.body.id);
+    if(id > 0) {
+        let Query =`DELETE FROM users  WHERE id = '${id}' `;
+        const promisePool = db_pool.promise();
+        let rows = [];
+        try{
+            [rows] = await promisePool.query(Query);
+        } catch (err){ console.log(err) }
+    }
     next();
 }
 // =====================================================================================================================
 
 module.exports = {
-    AddCourse,UpdateCourse,GetAllCourses,DeleteCourse,GetOneCourse
+    AddUser,GetOneUser,GetAllUsers,UpdateUser,DeleteUser
 }

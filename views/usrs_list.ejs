@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= page_title %></title>
+    <style>
+        td,th{border: 1px solid black;}
+    </style>
+</head>
+<body>
+
+<H1><%= page_title %></H1>
+<a href="/users/Add">Add User</a>
+<table>
+    <tr>
+        <th>Edit</th>
+        <th>Name</th>
+        <th>User Name</th>
+        <th>email</th>
+        <th>typeID</th>
+        <th>StudentID</th>
+        <th>Delete</th>
+    </tr>
+    <% for(let urs of users){ %>
+        <tr>
+            <td><a href="/users/Edit/<%= urs.id %>">Edit</a></td>
+            <td><%= urs.name %></td>
+            <td><%= urs.userName %></td>
+            <td><%= urs.email %></td>
+            <td><%= urs.typeID %></td>
+            <td><%= urs.StudentID %></td>
+            <td>
+                <form action="/users/Delete" method="post">
+                    <input type="hidden" name="id" value="<%=urs.id%>">
+                    <button>Delete</button>
+                </form>
+            </td>
+        </tr>
+    <% } %>
+</table>
+</body>
+</html>
