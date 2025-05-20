@@ -18,15 +18,14 @@ global.stripSlashes = require('slashes').stripSlashes;
 
 let db_M = require('./server/models/database');
 global.db_pool = db_M.pool;
+app.get('/index', (req, res)=>{ res.render("index",{}); })
 
-
-app.get('/', (req, res)=>{ res.render("index",{}); })
+const login_rtr = require('./server/Routs/login_R')
+app.use('/', login_rtr);
 
 const corse_rtr = require('./server/Routs/Course_R')
 app.use('/course', corse_rtr);
 
 const users_rtr = require('./server/Routs/Users_R')
 app.use('/users', users_rtr);
-
-
 app.listen(port, ()=> { console.log(`Now Listening On Port http://localhost:${port}`); })

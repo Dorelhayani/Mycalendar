@@ -2,14 +2,13 @@
 // =====================================================================================================================
 async function AddCourse(req, res, next){
     let name = addSlashes(req.body.name);
-    let Q=`INSERT INTO course ( name) VALUES ('${name}')` ;
+    let Query =`INSERT INTO course ( name) VALUES ('${name}')` ;
 
     const promisePool = db_pool.promise();
 
     let rows = [];
-    try{
-        [rows] = await promisePool.query(Q);
-    } catch (err){ console.log(err) }
+    try{ [rows] = await promisePool.query(Query);}
+    catch (err){ console.log(err) }
     next();
 }
 // =====================================================================================================================
@@ -28,9 +27,8 @@ async function UpdateCourse(req, res, next){
     let Query = `UPDATE course SET name='${name}' WHERE id='${id}'`;
     const promisePool = db_pool.promise();
     let rows=[];
-    try {
-        [rows] = await promisePool.query(Query);
-    } catch (err) { console.log(err);}
+    try { [rows] = await promisePool.query(Query);}
+    catch (err) { console.log(err);}
     next();
 }
 
@@ -63,12 +61,12 @@ async function GetOneCourse(req,res,next){
     }
     req.GoodOne = true;
 
-    let Q=`SELECT * FROM course  WHERE id = '${id}' `;
+    let Query =`SELECT * FROM course  WHERE id = '${id}' `;
     const promisePool = db_pool.promise();
     let rows=[];
     req.one_course_data=[];
     try {
-        [rows] = await promisePool.query(Q);
+        [rows] = await promisePool.query(Query);
         if(rows.length > 0){ req.courses_data = rows[0]; }
     } catch (err) { console.log(err);}
     next();
@@ -84,14 +82,11 @@ if(id > 0) {
     let Query =`DELETE FROM course  WHERE id = '${id}' `;
     const promisePool = db_pool.promise();
     let rows = [];
-    try{
-        [rows] = await promisePool.query(Query);
-    } catch (err){ console.log(err) }
+    try{ [rows] = await promisePool.query(Query); }
+    catch (err){ console.log(err) }
 }
     next();
 }
 // =====================================================================================================================
 
-module.exports = {
-    AddCourse,UpdateCourse,GetAllCourses,DeleteCourse,GetOneCourse
-}
+module.exports = { AddCourse,UpdateCourse,GetAllCourses,DeleteCourse,GetOneCourse }

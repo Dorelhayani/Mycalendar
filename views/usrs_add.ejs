@@ -22,12 +22,17 @@
     <label for="usrs_email">User email</label>
     <input type="text" name="email" id="usrs_email" value="<%= data.email %>" /> <br><br>
 
-    <label for="usrs_typeID">User typeID</label>
-    <input type="text" name="typeID" id="usrs_typeID" value="<%= data.typeID %>" /> <br><br>
-
-    <label for="usrs_name">Student ID</label>
+    <label for="usrs_name">User ID</label>
     <input type="text" name="StudentID" id="usrs_StudentID" value="<%= data.StudentID %>" /> <br><br>
 
+    <br>
+    <label for="typeID">User Type </label>
+    <select name="typeID" id="typeID">
+        <option value="1">Admin</option>
+        <option value="2">Lecturer</option>
+        <option value="3">Student</option>
+    </select>
+    <br>
 
     <button name="btn" value="1">send</button>
 </form>

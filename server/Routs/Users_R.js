@@ -5,43 +5,28 @@ const users_MID = require("../middleware/Users_mid");
 
 // Create
 // =====================================================================================================================
-router.get("/Add", (req,res)=>{
-    res.render("usrs_add",{ data: {} });
-});
-router.post("/Add",[users_MID.AddUser], (req, res) => {
-    res.redirect("/users/List");
-});
+router.get("/Add", (req,res)=>{ res.render("usrs_add",{ data: {} }); });
+router.post("/Add",[users_MID.AddUser], (req, res) => { res.redirect("/users/List"); });
 // =====================================================================================================================
 
 
 // Read
 // =====================================================================================================================
 router.get("/List",[users_MID.GetAllUsers],(req,res)=>{
-    res.render("usrs_list",{
-        page_title:"Users List",
-        users : req.users_data,
-    });
-});
+    res.render("usrs_list",{ page_title:"Users List", users : req.users_data, }); });
 // =====================================================================================================================
 
 
 // Delete
 // =====================================================================================================================
-router.post("/Delete", [users_MID.DeleteUser] ,(req,res)=>{
-    res.redirect("/users/List");
-})
+router.post("/Delete", [users_MID.DeleteUser] ,(req,res)=>{ res.redirect("/users/List"); })
 // =====================================================================================================================
 
 
 // Update
 // =====================================================================================================================
 router.get("/Edit/:id",[users_MID.GetOneUser], (req,res)=>{
-    if(req.GoodOne){
-        res.render("usrs_add",{
-            data: req.one_user_data,
-        });
-    } else res.redirect("/users/List");
-});
+    if(req.GoodOne){ res.render("usrs_add",{ data: req.one_user_data, }); }
+    else res.redirect("/users/List"); });
 router.post("/Edit/:id",[users_MID.UpdateUser], (req, res) => { res.redirect("/users/List"); });
 // =====================================================================================================================
-
