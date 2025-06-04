@@ -6,35 +6,46 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Adding User</title>
+    <style>
+        td,th{border: 1px solid black;}
+    </style>
 </head>
 <body>
+<center>
 <h1>Adding User</h1>
-<form action="" method="post">
-    <label for="usrs_name">User Name</label>
-    <input type="text" name="name" id="usrs_name" value="<%= data.name %>" /> <br><br>
+    <form action="" method="post">
+<table>
+    <tr>
+        <th>Name</th>
+        <th>User Name</th>
+        <th>User Password</th>
+        <th>User email</th>
+        <th>User ID</th>
+        <th>Select User Type</th>
+        <th>Send</th>
+    </tr>
+        <tr>
+            <td> <input type="text" name="name" id="usrs_name" value="<%= data.name %>" /> </td>
+            <td> <input type="text" name="userName" id="usrs_userName" value="<%= data.userName %>" /> </td>
+            <td> <input type="text" name="password" id="usrs_password" value="<%= data.password %>" /> </td>
+            <td> <input type="text" name="email" id="usrs_email" value="<%= data.email %>" /> </td>
+            <td> <input type="text" name="StudentID" id="usrs_StudentID" value="<%= data.StudentID %>" /> </td>
+            <td>
+                    <label for="typeID">User Type </label>
+                    <select name="typeID" id="typeID">
+                        <option value="1">Admin</option>
+                        <option value="2">Lecturer</option>
+                        <option value="3">Student</option>
+                    </select>
+            </td>
+            <td>
+                <button name="btn" value="1">send</button>
+            </td>
+        </tr>
+</table>
+    </form>
+</center>
 
-    <label for="usrs_userName">User UserName</label>
-    <input type="text" name="userName" id="usrs_userName" value="<%= data.userName %>" /> <br><br>
 
-    <label for="usrs_password">User Password</label>
-    <input type="text" name="password" id="usrs_password" value="<%= data.password %>" /> <br><br>
-
-    <label for="usrs_email">User email</label>
-    <input type="text" name="email" id="usrs_email" value="<%= data.email %>" /> <br><br>
-
-    <label for="usrs_name">User ID</label>
-    <input type="text" name="StudentID" id="usrs_StudentID" value="<%= data.StudentID %>" /> <br><br>
-
-    <br>
-    <label for="typeID">User Type </label>
-    <select name="typeID" id="typeID">
-        <option value="1">Admin</option>
-        <option value="2">Lecturer</option>
-        <option value="3">Student</option>
-    </select>
-    <br>
-
-    <button name="btn" value="1">send</button>
-</form>
 </body>
 </html>

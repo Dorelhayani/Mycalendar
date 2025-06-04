@@ -1,5 +1,5 @@
 // Installed Libraries
-// slashes@2.0.0 , cookie-parser , jwt = jsonwebtoken
+// slashes@2.0.0 , cookie-parser , jwt = jsonwebtoke
 const port = 3210;
 const express = require('express');
 const app = express();

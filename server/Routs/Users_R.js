@@ -13,7 +13,13 @@ router.post("/Add",[users_MID.AddUser], (req, res) => { res.redirect("/users/Lis
 // Read
 // =====================================================================================================================
 router.get("/List",[users_MID.GetAllUsers],(req,res)=>{
-    res.render("usrs_list",{ page_title:"Users List", users : req.users_data, }); });
+    res.render("usrs_list",{
+        page_title:"Users List",
+        users : req.users_data,
+        page: req.page,
+        total_pages: req.total_pages,
+    });
+});
 // =====================================================================================================================
 
 

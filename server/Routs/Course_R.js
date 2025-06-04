@@ -13,7 +13,13 @@ router.post("/Add",[course_MID.AddCourse], (req, res) => { res.redirect("/course
 // Read
 // =====================================================================================================================
 router.get("/List",[course_MID.GetAllCourses],(req,res)=>{
-    res.render("crs_list",{ page_title:"Courses List",  courses : req.courses_data, }); });
+    res.render("crs_list",{
+        page_title:"Courses List",
+        courses: req.courses_data,
+        page: req.page,
+        total_pages: req.total_pages,
+    });
+});
 // =====================================================================================================================
 
 

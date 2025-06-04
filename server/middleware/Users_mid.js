@@ -1,4 +1,5 @@
 var md5 = require('md5');
+const {query} = require("express");
 
 // is Logged Function
 // =====================================================================================================================
@@ -13,6 +14,7 @@ async function isLogged(req, res, next){
                 let data = decodedToken.data;
                 console.log("data=",data);
                 user_id = data.split(",")[0];
+                req.id = user_id
             }
         })
     }
@@ -38,8 +40,8 @@ async function CheckLogin(req, res, next){
     if(rows.length > 0){
         req.validUser = true;
         let val = `${rows[0].id},${rows[0].name}`;
-        var token = jwt.sign(
-            {data: val},
+        var token = jwt.sign (
+            { data: val },
             'myPrivateKey',
             { expiresIn: 31*24*60*60 }); // in sec
         res.cookie("ImLoggedToYoman", token, { maxAge: 31*24*60*60 * 1000, }); } // 3hrs in ms
@@ -79,18 +81,17 @@ async function AddUser(req, res, next){
 // =====================================================================================================================
 async function UpdateUser(req, res, next){
     let id = parseInt(req.params.id);
-    if(id <= 0) {
-        req.GoodOne = false;
-        return next();
-    }
-    req.GoodOne = true;
-
     let name = (req.body.name !== undefined) ? addSlashes(req.body.name): "";
     let userName = (req.body.userName !== undefined)  ?addSlashes(req.body.userName): "";
     let email = (req.body.email !== undefined) ? addSlashes(req.body.email): "";
     let typeID = (req.body.typeID !== undefined) ? parseInt(req.body.typeID): -1;
     let StudentID = (req.body.StudentID !== undefined) ? addSlashes(req.body.StudentID): "";
 
+    if(id <= 0) {
+        req.GoodOne = false;
+        return next();
+    }
+    req.GoodOne = true;
 
     let Query =`UPDATE users SET `;
     Query +=`name   ='${name}' ,`;
@@ -112,9 +113,25 @@ async function UpdateUser(req, res, next){
 // Read - All Users
 // =====================================================================================================================
 async function GetAllUsers(req,res,next){
-    let Query="SELECT * FROM users";
+    let page = 0;
+    let rowPerPage = 2
+    if(req.query.p !== undefined) { page = parseInt(req.query.p); } //
+    req.page = page; // מחזיר לצד הקדימי את העמוד הנוכחי
+
+    // page counter
+    let rows = [];
+    let Query = "SELECT COUNT(id) as cnt FROM users";
     const promisePool = db_pool.promise();
-    let rows=[];
+     let total_rows = 0;
+     try {
+         [rows] = await promisePool.query(Query);
+         total_rows =rows[0].cnt;
+     } catch (err){ console.log(err); }
+    req.total_pages= Math.floor(total_rows / rowPerPage);
+
+    // get current page
+    Query = "SELECT * FROM users";
+    Query += ` LIMIT ${page * rowPerPage},${rowPerPage} `;
     req.users_data = [];
     try {
         [rows] = await promisePool.query(Query);

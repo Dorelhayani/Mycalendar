@@ -8,6 +8,7 @@
     <title><%= page_title %></title>
     <style>
         td,th{border: 1px solid black;}
+        .centered { text-align: center}
     </style>
 </head>
 <body>
@@ -23,6 +24,7 @@
         <th>typeID</th>
         <th>StudentID</th>
         <th>Delete</th>
+        <th></th>
     </tr>
     <% for(let urs of users){ %>
         <tr>
@@ -40,6 +42,16 @@
             </td>
         </tr>
     <% } %>
+    <td colspan="100" class="centered">
+        <form action="" method="get">
+            <% if (page > 0) { %> <button name="p" value="<%= page-1 %>">Back</button> <% }%>
+                Page  <%= page+1%> / <%= total_pages+1 %>
+
+                <% if(page < total_pages) { %>
+                    <button name="p" value="<%= page+1 %>">Next Page</button>
+                <% } %>
+        </form>
+    </td>
 </table>
     </center>
 </body>

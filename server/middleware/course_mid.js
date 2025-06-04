@@ -37,17 +37,85 @@ async function UpdateCourse(req, res, next){
 
 // Read
 // =====================================================================================================================
+
+//  get all courses
+
+// async function GetAllCourses(req,res,next){
+//     let Query="SELECT * FROM course";
+//     const promisePool = db_pool.promise();
+//     let rows=[];
+//     req.courses_data=[];
+//     try {
+//         [rows] = await promisePool.query(Query);
+//         req.courses_data=rows;
+//     } catch (err) { console.log(err);}
+//     next();
+// }
+
+// option to skip forward & backward pages
 async function GetAllCourses(req,res,next){
-    let Query="SELECT * FROM course";
-    const promisePool = db_pool.promise();
+    let page=0;
+    let rowPerPage=2;
+    if(req.query.p !== undefined){
+        page=parseInt(req.query.p);
+    }
+    req.page = page;
+
     let rows=[];
+    //--- count pages---
+    let Query = "SELECT COUNT(id) AS cnt FROM course";
+    const promisePool = db_pool.promise();
+    let total_rows=0;
+    try {
+        [rows] = await promisePool.query(Query);
+        total_rows=rows[0].cnt;
+    } catch (err) {
+        console.log(err);
+    }
+    req.total_pages = Math.floor(total_rows/rowPerPage);
+    //--- get current page ---
+    Query="SELECT * FROM course";
+    Query += ` LIMIT ${page*rowPerPage},${rowPerPage} `;
     req.courses_data=[];
     try {
         [rows] = await promisePool.query(Query);
         req.courses_data=rows;
-    } catch (err) { console.log(err);}
+    } catch (err) {
+        console.log(err);
+    }
+
     next();
 }
+
+// get course per student
+
+// async function GetAllCourses(req,res,next){
+//     let filter = (req.query.filter !== undefined) ? req.query.filter : "";
+//     let Query="SELECT * FROM course";
+//     let wh="";
+//     if(filter !== ""){
+//         wh += (wh === "")?" WHERE " : " AND ";
+//         wh += ` ( name LIKE '%${filter}%' )`;
+//     }
+//     if(req.id !== undefined){
+//         wh += (wh === "")?" WHERE " : " AND ";
+//         wh += ` ( id IN (SELECT id FROM course WHERE id=${req.id}) )`;
+//     }
+//     Query += wh;
+//     Query+= " LIMIT 0,100 ";
+//
+//     const promisePool = db_pool.promise();
+//     let rows=[];
+//     req.courses_data=[];
+//     try {
+//         [rows] = await promisePool.query(Query);
+//         req.courses_data=rows;
+//     } catch (err) {
+//         console.log(err);
+//     }
+//
+//     next();
+// }
 // =====================================================================================================================
 
 
@@ -61,7 +129,7 @@ async function GetOneCourse(req,res,next){
     }
     req.GoodOne = true;
 
-    let Query =`SELECT * FROM course  WHERE id = '${id}' `;
+    let Query =`SELECT * FROM course WHERE id = '${id}' `;
     const promisePool = db_pool.promise();
     let rows=[];
     req.one_course_data=[];
