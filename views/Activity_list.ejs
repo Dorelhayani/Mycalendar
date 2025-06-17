@@ -1,0 +1,98 @@
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <title><%= page_title %></title>-->
+<!--    <style>-->
+<!--        td,th{border: 1px solid black;}-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<center>-->
+<!--    <H1><%= page_title %></H1>-->
+<!--    <a href="/course/Add">Add Course</a>-->
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <th></th>-->
+<!--            <th>שם קורס</th>-->
+<!--            <th></th>-->
+<!--        </tr>-->
+<!--        <% for(let sd of studydata){ %>-->
+<!--            <tr>-->
+<!--                <td><a href="/StudyData/Edit/<%= sd.id %>">Edit</a></td>-->
+<!--                <td><%= sd.name %></td>-->
+<!--                <td>-->
+<!--                    <form action="/StudyData/Delete" method="post">-->
+<!--                        <input type="hidden" name="id" value="<%=sd.id%>">-->
+<!--                        <button>Delete</button>-->
+<!--                    </form>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        <% } %>-->
+<!--        <td colspan="100" class="centered">-->
+<!--            <form action="" method="get">-->
+<!--                <% if (page > 0) { %> <button name="p" value="<%= page-1 %>">Back</button> <% }%>-->
+<!--                Page  <%= page+1%> / <%= total_pages+1 %>-->
+
+<!--                <% if(page < total_pages) { %>-->
+<!--                    <button name="p" value="<%= page+1 %>">Next Page</button>-->
+<!--                <% } %>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </table>-->
+<!--</center>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= page_title %></title>
+    <style>
+        td,th{border: 1px solid black;}
+    </style>
+</head>
+<body>
+
+<H1><%= page_title %></H1>
+<a href="/activity/Add">Add Course</a>
+<table>
+    <tr>
+        <th>UserID</th>
+        <th>Course</th>
+        <th>StudyDate</th>
+        <th>startTime</th>
+        <th>endTime</th>
+        <th>Notes</th>
+    </tr>
+    <% for(let sd of studyData){ %>
+        <tr>
+<!--            <td><a href="/StudyData/Edit/<%= sd.id %>">Edit</a></td>-->
+            <td><%= sd.UserID %></td>
+            <td><%= sd.Course %></td>
+            <td><%= sd.StudyDate %></td>
+            <td><%= sd.startTime %></td>
+            <td><%= sd.endTime %></td>
+            <td><%= sd.Notes %></td>
+<!--            <td>-->
+<!--                <form action="/StudyData/Delete" method="post">-->
+<!--                <input type="hidden" name="id" value="<%=sd.id%>">-->
+<!--                <button>Delete</button>-->
+<!--                </form>-->
+<!--            </td>-->
+        </tr>
+    <% } %>
+</table>
+</body>
+</html>

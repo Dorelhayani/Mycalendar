@@ -26,6 +26,9 @@ global.was_logged = false;
 
 const users_MID = require("./server/middleware/Users_mid");
 
+const Activity_rtr = require('./server/Routs/Activity_R')
+app.use('/activity', Activity_rtr);
+
 const corse_rtr = require('./server/Routs/Course_R');
 app.use('/course', [users_MID.isLogged],corse_rtr);
 
